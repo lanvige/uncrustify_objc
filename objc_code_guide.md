@@ -202,7 +202,7 @@ NSNumber *yesNumber = @YES;    // 相当于 [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO;      // 相当于 [NSNumber numberWithBool:NO]
 ```
 
-######NSArray
+###### NSArray
 
 ``` ObjC
 // Old style
@@ -213,7 +213,13 @@ NSArray *items = [NSArray arrayWithObjects:@"item1",
 NSArray *items = @[ @"item1", @YES, @12 ];
 ```
 
-######NSDictionary
+###### NSMutableArray
+
+``` Objc
+// New style
+NSMutableArray *array = [@[ @"1", @"2", @"3" ] mutableCopy];
+```
+###### NSDictionary [SO](http://stackoverflow.com/questions/12416967/is-there-a-literal-syntax-for-mutable-collections)
 
 ``` ObjC
 // Old style
