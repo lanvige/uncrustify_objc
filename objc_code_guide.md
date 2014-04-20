@@ -238,7 +238,7 @@
 
 - ###### NS_ENUM
 
-[Objective-C Enumeration, NS_ENUM & NS_OPTIONS](http://stackoverflow.com/questions/14080750/objective-c-enumeration-ns-enum-ns-options)
+    [Objective-C Enumeration, NS_ENUM & NS_OPTIONS](http://stackoverflow.com/questions/14080750/objective-c-enumeration-ns-enum-ns-options)
 	``` ObjC
 	typedef NS_ENUM(NSInteger, MMType)
 	{
@@ -261,6 +261,17 @@
 	@synthesize object = _object;
 	```
 
+### - 其它
+
+- ##### EXTScope
+   最后一定要加上; 分号，不然代码格式化会出错。
+    ``` ObjC
+    @weakify(self);
+    [[publishButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
+        @strongify(self);
+        [self.navigationController popToRootViewControllerAnimated:YES];
+}];
+    ```
 
 REF::
 ---

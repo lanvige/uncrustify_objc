@@ -7,3 +7,30 @@
             kSharedPlugin = [[self alloc] init];
         });
 }
+
+// NS_ENUM 空格和最后分号
+typedef NS_ENUM(NSInteger, UITableViewCellStyle) {
+    UITableViewCellStyleDefault,
+    UITableViewCellStyleValue1,
+    UITableViewCellStyleValue2,
+    UITableViewCellStyleSubtitle
+};
+
+// @strongify();下一行中的空格问题。
+- (UIBarButtonItem *)publishItem
+{
+    if (!_publishItem) {
+        HLButton *publishButton = [HLButton buttonWithType:UIButtonTypeCustom];
+        [publishButton rightNav];
+        publishButton.imageEdgeInsets = UIEdgeInsetsMake(0.f, 15.f, 0.f, -15.f);
+        [publishButton setImage:[UIImage imageInBundleNamed:@"nav_publish"] forState:UIControlStateNormal];
+        @weakify(self);
+        [[publishButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(UIButton *button) {
+            @strongify(self);
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
+        _publishItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
+    }
+
+    return _publishItem;
+}
