@@ -1,7 +1,7 @@
-#ObjC #Code Guideline
+# ObjC #Code Guideline
 ---
 
-###命名风格
+### - 命名风格
 
 - 文件名首字母大写，以后每个单词首字母大写
 - 类的定义和文件名相同
@@ -14,24 +14,23 @@
 	- deleteButtonAction
 
 
-###逻辑代码风格
+### - 逻辑代码风格
 
 - 方法定义，大括号位于方法下面，每个括号都占单独一行
-``` ObjC
-- (void)init	
-{	
-}
-```
+	``` ObjC
+	- (void)init	
+	{	
+	}
+	```
 
 - 逻辑的写法，大括号则位于同行
-``` ObjC
-if (xxx == yyy)  {
-} else {
-}
-```
+	``` ObjC
+	if (xxx == yyy)  {
+	} else {
+	}
+	```
 
 - Switch
-
 	``` ObjC
 	switch (state) {
 		case AFOperationReadyState:
@@ -51,38 +50,39 @@ if (xxx == yyy)  {
 	```
 
 - 所有赋值方法后的参数名都是name_
-``` ObjC
-- (void)setSource:(HNObject *)source_ 
-{
-}
-```
+	``` ObjC
+	- (void)setSource:(HNObject *)source_ 
+	{
+	}
+	```
 
 - init函数中放对象初始化所需要的数据
-``` ObjC
-- (id)initWithData:(NSData)data_
-{
-}
+	``` ObjC
+	- (id)initWithData:(NSData)data_
+	{
+	}
 ```
 
 - 视图创建的东西，像UITableView的创建，属性设置，addSubView 
-``` ObjC
-- (void)loadView
-```
+	``` ObjC
+	- (void)loadView
+	```
 
 - viewDidLoad中用来？
-``` ObjC
-- (void)viewDidLoad
-```
+	``` ObjC
+	- (void)viewDidLoad
+	```
 
 
-###CocoaTouch
+### - CocoaTouch
 
 - View初始化
 
 	``` ObjC
 	@property (nonatomic, strong) SSLabel *upgradeLabel;  
 	
-	- (SSLabel *)upgradeLabel {
+	- (SSLabel *)upgradeLabel
+	{
     	if (!_upgradeLabel) {
         	_upgradeLabel = [[SSLabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 60.0f)];
          	_upgradeLabel.font = [UIFont cheddarInterfaceFontOfSize:14.0f];
@@ -93,47 +93,47 @@ if (xxx == yyy)  {
 	}
 	```
 
-# 注释
+### - 注释
 
-``` ObjC
-#pragma mark
-#pragma mark - NSObject
-	- init
-	- dealloc
+- ##### 常用注释写法
+	``` ObjC
+	#pragma mark
+	#pragma mark - NSObject
+		- init
+		- dealloc
 
-#pragma mark
-#pragma mark - LifeCycle
-	- (void)viewDidLoad
-	- ViewWillApear
+	#pragma mark
+	#pragma mark - UIViewController LifeCycle
+		- (void)viewDidLoad
+		- ViewWillApear
 
-//每个Delegate都拥有一个注释区
-#pragma mark
-#pragma mark - UITableViewDelegate Methods
+	//每个Delegate都拥有一个注释区
+	#pragma mark
+	#pragma mark - UITableViewDelegate Methods
 
-#pragma mark
-#pragma mark - UITableViewDataSource Methods
+	#pragma mark
+	#pragma mark - UITableViewDataSource Methods
 
-#pragma mark
-#pragma mark - Actions 
+	#pragma mark
+	#pragma mark - Actions 
 
-#pragma mark
-#pragma mark - Gestures
+	#pragma mark
+	#pragma mark - Gestures
 
-#pragma mark
-#pragma mark - Memory Management Methods
-	- (void)viewDidUnload
-	- (void)didReceiveMemoryWarning 
+	#pragma mark
+	#pragma mark - Memory Management Methods
+		- (void)viewDidUnload
+		- (void)didReceiveMemoryWarning 
 
-#pragma mark -
-#pragma mark Interface Orientation
+	#pragma mark -
+	#pragma mark Interface Orientation
+		- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+		{
+		    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+		}
+	```
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-```
-
-###性能
+### - 性能
 
 - 头文件中的引用使用@class，而非#import，import放在.m文件中
 	- @class性能会高一点，因为编译器不需要处理整个ClassName.h文件，只需要知道ClassName是一个类名字。
@@ -148,13 +148,13 @@ if (xxx == yyy)  {
 - 常量定义
 	- #define 宏
 	
-	```
+	``` ObjC
 	#define kDefaultDomainURL @"http.service.urlprefix.default"
 	// 这种方式定义后，可在其它地方直接使用，方便简单，其就是在编译时期为作编译参数传入，编译时不会对其进行类型检测，也无法对常量进行指针比较操作。适合于？
 	```
 	- extern
 	
-	```
+	``` ObjC
 	// .h define
 	extern NSString *const kFontDefaultsKey;
 	// .m implenment
@@ -166,96 +166,102 @@ if (xxx == yyy)  {
 	```
 	- static
 
-	```
+	``` ObjC
 	static NSString *const cellIdentifier = @"cellIdentifier";
 	// static 可以用来修饰局部变量，全局变量
 	```
 	- const
 
-	```
+	``` ObjC
 	NSString *const kFontDefaultsKey = @"FontDefaults";
 	// const数据成员只在某个对象生存期内是常量，而对于整个类而言却是可变的。因为类可以创建多个对象，不同的对象其const数据成员的值可以不同。所以不能在类声明中初始化const数据成员，因为类的对象未被创建时，编译器不知道const 数据成员的值是什么。
 	// const数据成员的初始化只能在类的构造函数的初始化表中进行。要想建立在整个类中都恒定的常量，应该用类中的枚举常量来实现，或者static const。
 	```
 
-###ARC
+### - ARC
 
-###XCode 4.4 新语法
+### - XCode 4.4 新语法(syntax)
 
-#####NSNumber
-```
-// 单个字符
-NSNumber *theLetterZ = @'Z';   // 相当于 [NSNumber numberWithChar:'Z']
+- ##### NSNumber
+	``` ObjC
+	// 单个字符
+	NSNumber *theLetterZ = @'Z';   // 相当于 [NSNumber numberWithChar:'Z']
 
-// 整形
-NSNumber *fortyTwo = @42;      // 相当于 [NSNumber numberWithInt:42]
-NSNumber *ftUnsigned = @42U;   // 相当于 [NSNumber numberWithUnsignedInt:42U]
-NSNumber *ftLong = @42L;       // 相当于 [NSNumber numberWithLong:42L]
-NSNumber *ftLongLong = @42LL;  // 相当于 [NSNumber numberWithLongLong:42LL]
+	// 整形
+	NSNumber *fortyTwo = @42;      // 相当于 [NSNumber numberWithInt:42]
+	NSNumber *ftUnsigned = @42U;   // 相当于 [NSNumber numberWithUnsignedInt:42U]
+	NSNumber *ftLong = @42L;       // 相当于 [NSNumber numberWithLong:42L]
+	NSNumber *ftLongLong = @42LL;  // 相当于 [NSNumber numberWithLongLong:42LL]
 
-// 浮点
-NSNumber *piFloat = @3.141592F;   // 相当于 [NSNumber numberWithFloat:3.141592F]
-NSNumber *piDouble = @3.141592;   // 相当于 [NSNumber numberWithDouble:3.141592]
+	// 浮点
+	NSNumber *piFloat = @3.141592F;   // 相当于 [NSNumber numberWithFloat:3.141592F]
+	NSNumber *piDouble = @3.141592;   // 相当于 [NSNumber numberWithDouble:3.141592]
 
-// BOOL
-NSNumber *yesNumber = @YES;    // 相当于 [NSNumber numberWithBool:YES]
-NSNumber *noNumber = @NO;      // 相当于 [NSNumber numberWithBool:NO]
-```
+	// BOOL
+	NSNumber *yesNumber = @YES;    // 相当于 [NSNumber numberWithBool:YES]
+	NSNumber *noNumber = @NO;      // 相当于 [NSNumber numberWithBool:NO]
+	```
 
-######NSArray
+- ###### NSArray
 
-``` ObjC
-// Old style
-NSArray *items = [NSArray arrayWithObjects:@"item1",
-                  [NSNumber numberWithBool:YES],
-                  [NSNumber numberWithInt:12], nil];
-// New style
-NSArray *items = @[ @"item1", @YES, @12 ];
-```
+	``` ObjC
+	// Old style
+	NSArray *items = [NSArray arrayWithObjects:@"item1",
+	                  [NSNumber numberWithBool:YES],
+	                  [NSNumber numberWithInt:12], nil];
+	// New style
+	NSArray *items = @[ @"item1", @YES, @12 ];
+	```
 
-######NSDictionary
+- ###### NSMutableArray [SO](http://stackoverflow.com/questions/12416967/is-there-a-literal-syntax-for-mutable-collections)
 
-``` ObjC
-// Old style
-NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                         [NSNumber numberWithBool:YES], @"backup",
-                         [NSNumber numberWithInt:7],    @"daysToKeepBackup",
-                         @"foo",                        @"flags", nil];
-// New style
-NSDictionary *options = @{
-    @"backup": @YES,
-    @"daysToKeepBackup": @7,
-    @"flags": @"foo"
-};
-```
+	``` Objc
+	// New style
+	NSMutableArray *array = [@[ @"1", @"2", @"3" ] mutableCopy];
+	```
 
-######NS_ENUM
+- ###### NSDictionary 
+
+	``` ObjC
+	// Old style
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+	                         [NSNumber numberWithBool:YES], @"backup",
+	                         [NSNumber numberWithInt:7],    @"daysToKeepBackup",
+	                         @"foo",                        @"flags", nil];
+	// New style
+	NSDictionary *options = @{
+	    @"backup": @YES,
+	    @"daysToKeepBackup": @7,
+	    @"flags": @"foo"
+	};
+	```
+
+- ###### NS_ENUM
 
 [Objective-C Enumeration, NS_ENUM & NS_OPTIONS](http://stackoverflow.com/questions/14080750/objective-c-enumeration-ns-enum-ns-options)
-```ObjC
-typedef NS_ENUM(NSInteger, MMType)
-{
-    MMTypeA,
-    MMTypeB
-};
-```
+	``` ObjC
+	typedef NS_ENUM(NSInteger, MMType)
+	{
+	    MMTypeA,
+	    MMTypeB
+	};
+	```
 
-######嵌套表达式 (Boxed Expressions)
-
-- 最新版本的 Objective-C 还提供了一种新的书写方式
+- ###### 嵌套表达式 (Boxed Expressions)   
+  最新版本的 Objective-C 还提供了一种新的书写方式
 
 	``` ObjC
 	@( expression )
 	```
 
-######Property
-
-- 升级到 Xcode 4.4 后，在头文件中创建的 @property 均无需再进行 @synthesize。Xcode 将自动生成
+- ###### Property   
+	升级到 Xcode 4.4 后，在头文件中创建的 @property 均无需再进行 @synthesize。Xcode 将自动生成
 
 	``` ObjC
 	@synthesize object = _object;
 	```
 
 
-####REF::
+REF::
+---
 https://github.com/github/objective-c-conventions
