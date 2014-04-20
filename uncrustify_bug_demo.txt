@@ -1,0 +1,9 @@
+// Block cannot indent
++ (void)pluginDidLoad:(NSBundle *)plugin
+{
+    static dispatch_once_t onceToken;
+
+    dispatch_once(&onceToken, ^{
+            kSharedPlugin = [[self alloc] init];
+        });
+}
